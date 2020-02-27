@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="/com/infosys/fs/fraudchecksystem/jaxb"
+	xmlns:paymentsns="/com/infosys/fs/fraudchecksystem/jaxb"
+	elementFormDefault="qualified">
+
+	<xs:element name="paymentRequestXml"
+		type="paymentsns:PaymentRequestXml"></xs:element>
+	<xs:element name="paymentResponseXml"
+		type="paymentsns:PaymentResponseXml"></xs:element>
+
+	<xs:complexType name="PaymentRequestXml">
+		<xs:sequence>
+			<xs:element name="payer" type="paymentsns:PaymentDetailsXml" />
+			<xs:element name="payee" type="paymentsns:PaymentDetailsXml" />
+		</xs:sequence>
+		<xs:attribute name="id" type="string" />
+		<xs:attribute name="valueDate" type="string" />
+		<xs:attribute name="amount" type="string" />
+		<xs:attribute name="currency" type="string" />
+		<xs:attribute name="paymentInstruction" type="string" />
+	</xs:complexType>
+
+	<xs:complexType name="PaymentDetailsXml">
+		<xs:attribute name="name" type="string" />
+		<xs:attribute name="bank" type="string" />
+		<xs:attribute name="countryCode" type="string" />
+	</xs:complexType>
+
+	<xs:complexType name="PaymentResponseXml">
+		<xs:attribute name="id" type="string" />
+		<xs:attribute name="status" type="string" />
+		<xs:attribute name="statusMessage" type="string" />
+		<xs:attribute name="responseTimeStamp" type="string" />
+	</xs:complexType>
+</xs:schema>

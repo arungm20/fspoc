@@ -1,0 +1,20 @@
+{
+
+  "language": "spring",
+  "library":"spring-boot",
+  
+  "apiPackage":"com.infosys.fs.brokerservice.rest",
+  "invokerPackage":"com.infosys.fs.brokerservice",
+  "basePackage":"com.infosys.fs.brokerservice",
+  "configPackage":"com.infosys.fs.brokerservice.config",
+  "modelPackage":"com.infosys.fs.brokerservice.model",
+  
+  "interfaceOnly":"false",
+  
+  "generateSupportingFiles": "true",
+  "generateModelDocumentation": "true",
+  "generateApiDocumentation": "true",
+  "generateModels": "true",
+  "generateApis": "true"
+  
+}

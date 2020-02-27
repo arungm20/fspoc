@@ -1,0 +1,114 @@
+swagger: "2.0"
+info:
+  version: '1.0'
+  title: Broker Service
+  description: This App exposes API to consume and convert request to required formats
+schemes:
+  - http
+basePath: /sys/broker-service/
+paths:
+  /v1/fraud-check:
+    post:
+      tags:
+      - Broker Service
+      summary: API to Receieve Payment of the User to check for fraud check
+      operationId: BrokerServiceRequest
+      description: API receives validated paymentRequest and converts to FCS XML and sends to the Queue
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: payment
+          description: >-
+            Represents  Payment entity
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentRequest'    
+      responses:
+        202:
+          description: Accepted
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
+  /v1/fraud-check-status:
+    get:
+      tags:
+      - Broker Service
+      summary: API to retrieve fraud check status based on transaction id
+      operationId: BrokerServiceRequestRetry
+      description: API receives validated paymentRequest and converts to FCS XML and sends to the Queue
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          name: id
+          description: >-
+            Represents  transaction id for which status needs to be retrieved
+          required: true
+          type: string  
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad Request
+        404:
+          description: Not Found          
+        500:
+          description: Internal Server Error          
+definitions:
+  PaymentRequest:
+    description: 'Payment Request to perform  Fraud check'
+    properties:
+      id:
+        type: string
+        description: transaction id in uuid format of the payment
+      payer:
+        $ref: '#/definitions/PaymentDetails'
+        description: Payment details of payer
+      payee:
+        $ref: '#/definitions/PaymentDetails'
+        description: Payment details of payee
+      valueDate:
+        type: string
+        description: 'Payment date on which transaction is performed in format YYYY-MM-DDThh:mm:ss for example : 2004-02-21T08:35:30	'
+      amount:
+        type: string
+        description: Amount of the transaction
+      currency:
+        type: string
+        description: Currency code
+      paymentInstruction:
+        type: string
+        description: Payment Instruction Optional		
+  PaymentResponse:
+    description: 'PaymentResponse received from Broker service'
+    properties:
+      id:
+        type: string
+        description: transaction id in uuid format of the payment received in request
+      status:
+        type: string
+        description: Fraud Check Result status
+      statusMessage:
+        type: string
+        description: Message to consumer if status is rejected - Suspicious Payment and if approved - Nothing found, all ok        
+      responseTimeStamp:
+        type: string
+        description: 'Response time when status check was performed in format YYYY-MM-DDThh:mm:ss for example : 2004-02-21T08:35:30	'
+  PaymentDetails:
+    description: 'PaymentDetails of the payment '
+    properties:
+      name:
+        type: string
+        description: Name of payer or payee
+      bank:
+        type: string
+        description: Bank of payer or payee
+      countryCode:
+        type: string
+        description: CountryCode of payer or payee

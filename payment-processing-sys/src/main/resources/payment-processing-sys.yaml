@@ -1,0 +1,112 @@
+swagger: "2.0"
+info:
+  version: '1.0'
+  title: Payment Processing System
+  description: This App exposes API to Manage Payment Processing of the User
+schemes:
+  - http
+basePath: /sys/payment-process/
+paths:
+  /v1/retry-fraud-check:
+    post:
+      tags:
+      - Payment Processing
+      summary: API to Retrigger Fraud Check
+      operationId: retryFraudCheck
+      description: API receives payment transaction id to retrigger the request
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: paymentResponse
+          description: >-
+            Represents  payment id of the transaction to be retriggered.
+            Only id needs to be sent to the API. other parameters will be ignored
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentResponse'          
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad Request
+        404:
+          description: Payment Id not found  
+  /v1/fraud-check-response:
+    post:
+      tags:
+      - Payment Processing
+      summary: API to Receive fraud check result from Fraud check system
+      operationId: paymentProcessResponse
+      description: API receives the response from Fraud check System
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: paymentResponse
+          description: >-
+            Represents  Payment Response with the status for fraud check
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentResponse'          
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad Request
+definitions:
+  PaymentRequest:
+    description: 'Payment Request to perform  Fraud check'
+    properties:
+      id:
+        type: string
+        description: transaction id in uuid format of the payment
+      payer:
+        $ref: '#/definitions/PaymentDetails'
+        description: Payment details of payer
+      payee:
+        $ref: '#/definitions/PaymentDetails'
+        description: Payment details of payee
+      valueDate:
+        type: string
+        description: 'Payment date on which transaction is performed in format YYYY-MM-DDThh:mm:ss for example : 2004-02-21T08:35:30	'
+      amount:
+        type: string
+        description: Amount of the transaction
+      currency:
+        type: string
+        description: Currency code
+      paymentInstruction:
+        type: string
+        description: Payment Instruction Optional		
+  PaymentResponse:
+    description: 'PaymentResponse received from Broker service'
+    properties:
+      id:
+        type: string
+        description: transaction id in uuid format of the payment received in request
+      status:
+        type: string
+        description: Fraud Check Result status
+      statusMessage:
+        type: string
+        description: Message to consumer if status is rejected - Suspicious Payment and if approved - Nothing found, all ok        
+      responseTimeStamp:
+        type: string
+        description: 'Response time when status check was performed in format YYYY-MM-DDThh:mm:ss for example : 2004-02-21T08:35:30	'
+  PaymentDetails:
+    description: 'PaymentDetails of the payment '
+    properties:
+      name:
+        type: string
+        description: Name of payer or payee
+      bank:
+        type: string
+        description: Bank of payer or payee
+      countryCode:
+        type: string
+        description: CountryCode of payer or payee			

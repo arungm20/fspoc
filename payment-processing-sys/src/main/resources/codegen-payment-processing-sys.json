@@ -1,0 +1,20 @@
+{
+
+  "language": "spring",
+  "library":"spring-boot",
+  
+  "apiPackage":"com.infosys.fs.paymentprocessingsys.rest",
+  "invokerPackage":"com.infosys.fs.paymentprocessingsys",
+  "basePackage":"com.infosys.fs.paymentprocessingsys",
+  "configPackage":"com.infosys.fs.paymentprocessingsys.config",
+  "modelPackage":"com.infosys.fs.paymentprocessingsys.model",
+  
+  "interfaceOnly":"false",
+  
+  "generateSupportingFiles": "true",
+  "generateModelDocumentation": "true",
+  "generateApiDocumentation": "true",
+  "generateModels": "true",
+  "generateApis": "true"
+  
+}
